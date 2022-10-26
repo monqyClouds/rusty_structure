@@ -21,6 +21,19 @@ impl Rectangle {    // METHODS
     }
 }
 
+#[derive(Debug)]
+struct Rect2 {
+    top_left: Point,
+    height: f32,
+    width: f32
+}
+
+#[derive(Debug)]
+struct Point {
+    x: f32,
+    y: f32
+}
+
 fn main() {
     let rect1 = Rectangle {
         width: 30,
@@ -39,19 +52,50 @@ fn main() {
 
     let sq = Rectangle::square(3);
 
+    let sq2 = square(Point {x: 3.7, y: 1.4}, 3.0);
+
     println!("Can rect1 hold rect2?: {}", rect1.can_hold(&rect2));
     println!("Can rect1 hold rect3?: {}", rect1.can_hold(&rect3));
 
-    // println!(
-    //     "The area of the rectangle is {} square pixels.", rect1.area()
-    // );
+    println!(
+        "The area of the rectangle is {} square pixels.", area_rectangle(&rect1)
+    );
+
+    println!(
+        "The area of the second square is {} square pixels.", area_square(&sq2)
+    );
 
     println!("Square is {:#?}", sq);
+    println!("Another Square is {:#?}", sq2)
 }
 
 // fn area(rectangle: &Rectangle) -> u32 {
 //     rectangle.width * rectangle.height
 // }
+
+fn area_rectangle(rectangle: &Rectangle) -> u32 { // nested destructuring
+    let Rectangle {width, height} = rectangle;
+
+    width * height
+}
+
+fn square(point: Point, lnt: f32) -> Rect2 {
+    let Point {x, y} = point;
+
+    let rectangle =  Rect2 {
+        top_left: Point {x, y},
+        height: lnt,
+        width: lnt
+    };
+
+    return rectangle;
+}
+
+fn area_square(square: &Rect2) -> f32 {
+    let Rect2 {width, height, top_left:_} = square;
+
+    width * height
+}
 
 // struct User {
 //     active: bool,
